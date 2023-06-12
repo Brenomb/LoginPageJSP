@@ -38,8 +38,8 @@ public class AppListener implements ServletContextListener
                 initializeLog += "Adding default users...";
                 User.insertUser("admin", "Administrador", "ADMIN", "1234");
                 initializeLog += "Admin added; ";
-                User.insertUser("fulano", "Fulano da Silva", "USER", "1234");
-                initializeLog += "Fulano added; ";
+                User.insertUser("user", "Primeiro Usuario", "USER", "1234");
+                initializeLog += "User added; ";
             }
         } catch (Exception ex) 
         {
