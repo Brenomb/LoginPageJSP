@@ -123,13 +123,13 @@
                         }
                     },
                     async loadList() {
-                        const data = await this.request("/DemoWebApp/api/users", "GET");
+                        const data = await this.request("/Login/api/users", "GET");
                         if(data) {
                             this.list = data.list;
                         }
                     },
                     async addUser() {
-                        const data = await this.request("/DemoWebApp/api/users", "POST", {login: this.newLogin, name: this.newName, role: this.newRole, password: this.newPassword});
+                        const data = await this.request("/Login/api/users", "POST", {login: this.newLogin, name: this.newName, role: this.newRole, password: this.newPassword});
                         if(data) {
                             this.newRole = 'USER'; 
                             this.newLogin = ''; 
@@ -139,7 +139,7 @@
                         }
                     },
                     async removeUser(id) {
-                        const data = await this.request("/DemoWebApp/api/users?id="+id, "DELETE");
+                        const data = await this.request("/Login/api/users?id="+id, "DELETE");
                         if(data) {
                             await this.loadList();
                         }
