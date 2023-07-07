@@ -17,6 +17,8 @@
     </head>
     <body>
         <%@include file="WEB-INF/jspf/header.jspf" %>
+        <h1>TESTE</h1>
+        <%@include file="WEB-INF/jspf/footer.jspf" %>
     </body>
 </html>
  

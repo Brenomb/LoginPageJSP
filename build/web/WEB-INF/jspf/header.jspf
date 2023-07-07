@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
+
 <div id="session">
     <nav v-if="data" class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -6,57 +7,99 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">  
+            <div class="collapse navbar-collapse navbar-light" id="navbarText" >
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">  
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Institucional
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Cursos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Análise e Desenvolvimento de Sistemas</a></li>
+                        <li><a class="dropdown-item" href="#">Desenvolvimento de Software Multiplataforma</a></li>
+                        <li><a class="dropdown-item" href="#">Comércio Exterior</a></li>
+                        <li><a class="dropdown-item" href="#">Gestão Empresarial</a></li>
+                        <li><a class="dropdown-item" href="#">Processos Químicos</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Secretaria
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Imformações Gerais</a></li>
+                        <li><a class="dropdown-item" href="#">Documentos e Modelos</a></li>
+                        <li><a class="dropdown-item" href="#">Perguntas Frequentes</a></li>
+                        <li><a class="dropdown-item" href="#">Requerimentos</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Calendario/Aulas
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-clock"></i> Horário das aulas</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-calendar-event"></i> Calendário Acadêmico</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sites
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                        <li><a class="dropdown-item" href="#">algo</a></li>
+                    </ul>
+                </li>
+
                 <li class="nav-item" v-if="data.role === 'ADMIN'">
                   <a class="nav-link" href="users.jsp">Users</a>
                 </li>
+
               </ul>
-              <span class="navbar-text">
+              <span v-if="data" class="navbar-text">
                 <i class="bi bi-person"></i>{{data.name}}
                 <button @click="logout()" class="btn btn-sm btn-danger" type="submit"><i class="bi bi-arrow-right-circle"></i></button>
+              </span>
+              <span v-else class="navbar-text">
+                <i class="bi bi-person" href="loginPage.jsp"></i>
               </span>
             </div>
         </div>
     </nav>
-    <div v-else>
-        <div class="card m-2 login-container">
-          <div class="card-header">
-              <h1 class="logo">&nbsp;Login</h1>
-          </div>
-          <div class="card-body">
-            <form class="m-5">
-              <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input v-model="loginUsername" type="text" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input v-model="loginPassword" type="password" class="form-control">
-              </div>
-              <button @click="login()" type="submit" class="btn btn-primary">Login</button>
-            </form>
-          </div>
-        </div>
-    </div>
-    <div v-if="error && error!=='No session'" class="alert alert-danger m-2" role="alert">
-        {{error}}
-    </div>
 </div>
+
+<script src="https://unpkg.com/vue@next"></script>
 <script>
-    const shared = Vue.reactive({ session: null });
-    
-    const session = Vue.createApp({
-        data() {
-            return {
-                shared: shared,
-                error: null,
-                loginUsername: null,
-                loginPassword: null,
-                data: null
-            }
-        },
-        methods: 
+  const shared = Vue.reactive({ session: null });
+  const loggedIn = Vue.createApp({
+    data() {
+      return {
+        shared: shared,
+        error: null,
+        loginUsername: null,
+        loginPassword: null,
+        data: null 
+      },
+    },
+      methods: 
         {
             async request(url = "", method, data) 
             {
@@ -81,41 +124,7 @@
                     return null;
                 }
             },
-            
-            async loadSession() 
-            {
-                const data = await this.request("/Login/api/session", "GET");
-                if(data) {this.data = data; this.error = null; this.shared.session = this.data;}
-            },
-            
-            async login() 
-            {
-                const data = await this.request("/Login/api/session", "PUT", {"login": this.loginUsername, "password": this.loginPassword});
-                if(data) {this.data = data; this.error = null; this.shared.session = this.data;}
-            },
-            
-            async logout() 
-            {
-                const data = await this.request("/Login/api/session", "DELETE");
-                if(data) {this.data = null; this.error = null; this.shared.session = this.data;}
-            }
-        },
-        mounted() 
-        {
-            this.loadSession();
-        }
-    });
-    session.mount('#session');
+    }
+  })
+  app.mount('#loggedIn')
 </script>
-
-<style>
-    .login-container {
-      max-width: 400px;
-      margin: 0 auto;
-      margin-top: 100px;
-    }
-    
-    .logo{
-      text-align: center;
-    }
-</style>
